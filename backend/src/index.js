@@ -6,12 +6,21 @@ import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import morgan from "morgan";
 import dbConnect from "../src/config/dbConnection.js";
+import userRouter from "./routes/user.route.js";
 
 const app = express();
 app.use(
   cors({
     origin: process.env.FRONTEND_URL,
     credentials: true,
+  })
+);
+app.use(express.json());
+app.use(cookieParser());
+app.use(morgan("dev"));
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false,
   })
 );
 
@@ -21,14 +30,7 @@ app.get("/", (req, res) => {
   res.send({ message: "Server is running at port " + PORT });
 });
 
-app.use(express.json());
-app.use(cookieParser());
-app.use(morgan("dev"));
-app.use(
-  helmet({
-    crossOriginResourcePolicy: false,
-  })
-);
+app.use("/api/user", userRouter);
 
 const startServer = async () => {
   try {
