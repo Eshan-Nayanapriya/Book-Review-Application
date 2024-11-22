@@ -3,6 +3,7 @@ import bcryptjs from "bcryptjs";
 import generatedAccessToken from "../utils/generateAccessToken.js";
 import generatedRefreshToken from "../utils/generateRefreshToken.js";
 
+//Register
 export async function registerUserController(request, response) {
   try {
     const { name, email, password } = request.body;
@@ -51,6 +52,7 @@ export async function registerUserController(request, response) {
   }
 }
 
+//Login
 export async function loginUserController(request, response) {
   try {
     const { email, password } = request.body;
@@ -83,13 +85,13 @@ export async function loginUserController(request, response) {
     const accessToken = await generatedAccessToken(user._id);
     const refreshToken = await generatedRefreshToken(user._id);
 
-    const cookiesoption ={
-        httpOnly: true,
-        secure : true,
-        sameSite : "None"
-    }
-    response.cookie('access_token', accessToken,cookiesoption)
-    response.cookie('refresh_token', refreshToken,cookiesoption)
+    const cookiesoption = {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+    };
+    response.cookie("accessToken", accessToken, cookiesoption);
+    response.cookie("refreshToken", refreshToken, cookiesoption);
 
     return response.status(200).json({
       message: "User logged in successfully!",
@@ -101,7 +103,38 @@ export async function loginUserController(request, response) {
       error: false,
       success: true,
     });
+  } catch (error) {
+    return response.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+}
 
+//Logout
+export async function logoutUserController(request, response) {
+  try {
+    const userid = request.userId;
+
+    const cookiesoption = {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+    };
+
+    response.clearCookie("accessToken", cookiesoption);
+    response.clearCookie("refreshToken", cookiesoption);
+
+    const removeRefreshToken = await UserModel.findByIdAndUpdate(userid, {
+      refresh_token: "",
+    });
+
+    return response.status(200).json({
+      message: "User logged out successfully!",
+      error: false,
+      success: true,
+    });
   } catch (error) {
     return response.status(500).json({
       message: error.message || error,
