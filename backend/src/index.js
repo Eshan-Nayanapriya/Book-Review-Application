@@ -7,6 +7,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import dbConnect from "../src/config/dbConnection.js";
 import userRouter from "./routes/user.route.js";
+import bookReviewRouter from "./routes/bookReview.route.js";
 
 const app = express();
 app.use(
@@ -31,6 +32,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/user", userRouter);
+app.use("/api/reviews", bookReviewRouter);
 
 const startServer = async () => {
   try {
