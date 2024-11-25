@@ -13,4 +13,5 @@ userRouter.post("/register", registerUserController);
 userRouter.post("/login", loginUserController);
 userRouter.get("/logout", auth, logoutUserController);
 userRouter.put("/forgot-password", forgotPasswordController);
+// otp-verify
 export default userRouter;

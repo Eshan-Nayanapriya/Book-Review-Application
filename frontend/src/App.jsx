@@ -1,17 +1,21 @@
 import { Outlet } from 'react-router-dom'
 import './App.css'
-import Navbar from './components/navbar'
+import Header from './components/Header'
 import Footer from './components/Footer'
+import { Toaster } from 'react-hot-toast'
 
 function App() {
 
   return (
     <>
-    <Navbar />
-    <main>
-      <Outlet />
-    </main>
-    <Footer />
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <main className='flex-grow'>
+        <Outlet />
+      </main>
+      <Footer />
+      <Toaster/>
+      </div>
     </>
   )
 }

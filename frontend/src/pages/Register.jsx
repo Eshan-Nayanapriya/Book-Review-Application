@@ -7,10 +7,12 @@ import SummaryApi from "../config/Summary.api";
 import AxiosToastError from "../utils/AxiosToastError";
 import { Link, useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Register = () => {
   const [data, setData] = useState({
+    name: "",
     email: "",
     password: "",
+    confirmPassword: "",
   });
 
   const [showPassword, setShowPassword] = useState(false);
@@ -30,9 +32,15 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (data.password !== data.confirmPassword) {
+      toast.error("Password and confirm password do not match");
+      return;
+    }
+
     try {
       const response = await Axios({
-        ...SummaryApi.login,
+        ...SummaryApi.register,
         data: data,
       });
 
@@ -43,10 +51,12 @@ const Login = () => {
       if (response.data.success) {
         toast.success(response.data.message);
         setData({
+          name: "",
           email: "",
           password: "",
+          confirmPassword: "",
         });
-        navigate("/");
+        navigate("/login");
       }
     } catch (error) {
       AxiosToastError(error);
@@ -56,11 +66,29 @@ const Login = () => {
   return (
     <div className="w-full container mx-auto px-2">
       <div className="bg-primaryDark my-4 w-full max-w-lg mx-auto rounded p-7">
-        <form action="" className="grid gap-4 py-3" onSubmit={handleSubmit}>
+        <p className="font-semibold">Welcome to BookHive!</p>
+
+        <form action="" className="grid gap-4 mt-6" onSubmit={handleSubmit}>
+          <div className="grid gap-1">
+            <label htmlFor="name">Username :</label>
+            <input
+              type="text"
+              required
+              id="name"
+              autoFocus
+              className="bg-white p-2 rounded-md focus-within:border-secondaryDark border-2 outline-none hover:shadow-md"
+              name="name"
+              value={data.name}
+              onChange={handleChange}
+              placeholder="Enter your username"
+            />
+          </div>
+
           <div className="grid gap-1">
             <label htmlFor="email">Email :</label>
             <input
               type="email"
+              required
               id="email"
               className="bg-white p-2 border-2 rounded-md focus-within:border-secondaryDark outline-none hover:shadow-md"
               name="email"
@@ -76,6 +104,7 @@ const Login = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 id="password"
+                required
                 className="w-full outline-none"
                 name="password"
                 value={data.password}
@@ -89,7 +118,20 @@ const Login = () => {
                 {showPassword ? <IoEye /> : <IoEyeOffSharp />}
               </div>
             </div>
-            <Link to={"/forgot-password"} className="block text-black ml-auto hover:text-secondaryDark underline">Forgot password?</Link>
+          </div>
+
+          <div className="grid gap-1">
+            <label htmlFor="confirmPassword">Confirm password :</label>
+            <input
+              type="password"
+              required
+              id="confirmPassword"
+              className="bg-white p-2 border-2 rounded-md focus-within:border-secondaryDark outline-none hover:shadow-md"
+              name="confirmPassword"
+              value={data.confirmPassword}
+              onChange={handleChange}
+              placeholder="Confirm your password"
+            />
           </div>
 
           <button
@@ -98,17 +140,17 @@ const Login = () => {
               validData ? "bg-secondaryDark" : "bg-secondaryLight"
             } py-2 rounded font-semibold my-3 tracking-wide hover:bg-secondaryDark`}
           >
-            Log in
+            Sign Up
           </button>
         </form>
 
         <p>
-          Don't have an account?{" "}
+          Already have an account?{" "}
           <Link
-            to={"/register"}
+            to={"/login"}
             className="font-semibold text-purple-800 underline"
           >
-            Sign up
+            Login
           </Link>
         </p>
       </div>
@@ -116,4 +158,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
