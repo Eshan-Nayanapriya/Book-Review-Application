@@ -38,10 +38,13 @@ const ForgotPassword = () => {
 
       if (response.data.success) {
         toast.success(response.data.message);
+        navigate("/otp-verify",{
+          state: { email: data.email },
+        });
         setData({
           email: "",
         });
-        navigate("/otp-verify");
+        
       }
     } catch (error) {
       AxiosToastError(error);
