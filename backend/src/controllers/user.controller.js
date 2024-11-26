@@ -7,6 +7,7 @@ import forgotPasswordTemplate from "../utils/forgotPasswordTemplate.js";
 import sendEmail from "../config/sendEmail.js";
 import verifyEmailTemplate from "../utils/VerifyEmailTemplate.js";
 import uploadImageCloudinary from "../utils/uploadImageCloudinary.js";
+import jwt from "jsonwebtoken";
 
 //Register
 export async function registerUserController(request, response) {
@@ -429,6 +430,61 @@ export async function resetPasswordController(request, response) {
       error: false,
       success: true,
       data: updatePassword,
+    });
+  } catch (error) {
+    return response.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+}
+
+//refresh token controller
+export async function refreshTokenController(request, response) {
+  try {
+    const refreshToken =
+      request.cookies.refreshToken ||
+      request?.header?.authorization?.split(" ")[1];
+
+    if (!refreshToken) {
+      return response.status(401).json({
+        message: "Refresh token not found!",
+        error: true,
+        success: false,
+      });
+    }
+
+    const verifyToken = await jwt.verify(
+      refreshToken,
+      process.env.REFRESH_TOKEN_SECRET
+    );
+
+    if (!verifyToken) {
+      return response.status(401).json({
+        message: "Token has expired!",
+        error: true,
+        success: false,
+      });
+    }
+    const userId = verifyToken?._id;
+
+    const newAccessToken = await generatedAccessToken(userId);
+
+    const cookiesoption = {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+    };
+    response.cookie("accessToken", newAccessToken, cookiesoption);
+
+    return response.status(200).json({
+      message: "New Access Token generated!",
+      error: false,
+      success: true,
+      data: {
+        accessToken: newAccessToken,
+      },
     });
   } catch (error) {
     return response.status(500).json({

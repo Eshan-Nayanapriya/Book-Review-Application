@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   forgotPasswordController,
   logoutUserController,
+  refreshTokenController,
   registerUserController,
   resetPasswordController,
   updateUserDetailsController,
@@ -32,4 +33,5 @@ userRouter.put(
 );
 userRouter.put("/update-user", auth, updateUserDetailsController);
 userRouter.put("/reset-password", resetPasswordController);
+userRouter.post("/refresh-token", refreshTokenController);
 export default userRouter;
