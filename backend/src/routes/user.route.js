@@ -3,9 +3,11 @@ import {
   forgotPasswordController,
   logoutUserController,
   registerUserController,
+  resetPasswordController,
   updateUserDetailsController,
   uploadUserAvatarController,
   verifyEmailController,
+  verifyForgotPasswordOTPController,
 } from "../controllers/user.controller.js";
 import { loginUserController } from "../controllers/user.controller.js";
 import auth from "../middleware/auth.js";
@@ -17,8 +19,17 @@ userRouter.post("/register", registerUserController);
 userRouter.post("/verify-email", verifyEmailController);
 userRouter.post("/login", loginUserController);
 userRouter.get("/logout", auth, logoutUserController);
-userRouter.put("/upload-avatar", auth, upload.single('avatar'), uploadUserAvatarController);
+userRouter.put(
+  "/upload-avatar",
+  auth,
+  upload.single("avatar"),
+  uploadUserAvatarController
+);
 userRouter.put("/forgot-password", forgotPasswordController);
-userRouter.put("/update-user", auth,updateUserDetailsController);
-// otp-verify
+userRouter.put(
+  "/verify-forgot-password-otp",
+  verifyForgotPasswordOTPController
+);
+userRouter.put("/update-user", auth, updateUserDetailsController);
+userRouter.put("/reset-password", resetPasswordController);
 export default userRouter;
