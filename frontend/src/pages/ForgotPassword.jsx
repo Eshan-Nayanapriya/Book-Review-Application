@@ -33,7 +33,7 @@ const ForgotPassword = () => {
       });
 
       if (response.data.error) {
-        toast.error(response.data.error);
+        toast.error(response.data.message);
       }
 
       if (response.data.success) {
@@ -52,7 +52,7 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="w-full container mx-auto px-2">
+    <section className="w-full container mx-auto px-2">
       <div className="bg-primaryDark my-4 w-full max-w-lg mx-auto rounded p-7">
         <p className="font-semibold text-lg">Forgot Password</p>
         <form action="" className="grid gap-4 py-3" onSubmit={handleSubmit}>
@@ -89,7 +89,7 @@ const ForgotPassword = () => {
           </Link>
         </p>
       </div>
-    </div>
+    </section>
   );
 };
 
