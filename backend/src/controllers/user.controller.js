@@ -370,6 +370,11 @@ export async function verifyForgotPasswordOTPController(request, response) {
       });
     }
 
+    const updateUser = await UserModel.findByIdAndUpdate(user?._id, {
+      forgot_password_otp: "",
+      forgot_password_expiry: "",
+    });
+
     return response.status(200).json({
       message: "OTP verified successfully!",
       error: false,
@@ -489,6 +494,30 @@ export async function refreshTokenController(request, response) {
   } catch (error) {
     return response.status(500).json({
       message: error.message || error,
+      error: true,
+      success: false,
+    });
+  }
+}
+
+//get user login details
+export async function getUserDetails(request, response) {
+  try {
+    const userId = request.userId;
+
+    const user = await UserModel.findById(userId).select(
+      "-password -refresh_token -forgot_password_otp -forgot_password_expiry -verify_email"
+    );
+
+    return response.json({
+      message: "User details retrieved",
+      data: user,
+      error: false,
+      success: true,
+    });
+  } catch (error) {
+    return response.status(500).json({
+      message: "Somethiing went wrong",
       error: true,
       success: false,
     });

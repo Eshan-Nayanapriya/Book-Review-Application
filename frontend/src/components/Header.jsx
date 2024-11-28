@@ -3,9 +3,13 @@ import Logo from "../assets/logo.png";
 import Search from "./Search";
 import { Link, useNavigate } from "react-router-dom";
 import { FaRegUserCircle } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 function Header() {
   const navigate = useNavigate();
+  const user = useSelector((state) => state?.user);
+
+  console.log("user", user);
 
   const redirectTologinPage = () => {
     navigate("/login");
