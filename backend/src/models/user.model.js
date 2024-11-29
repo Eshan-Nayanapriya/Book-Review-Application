@@ -12,6 +12,15 @@ const UserSchema = new Schema(
       required: [true, "Email is required"],
       unique: true,
     },
+    verify_email: {
+      type: Boolean,
+      required: [true, "Email verification is required"],
+      default: false,
+    },
+    avatar: {
+      type: String,
+      default: "",
+    },
     role: {
       type: String,
       default: "user",

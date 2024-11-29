@@ -2,10 +2,10 @@ import jwt from "jsonwebtoken";
 
 const auth = (request, response, next) => {
   try {
-    const accesstoken =
+    const token =
       request.cookies.accessToken ||
-      request?.header?.authorization?.split(" ")[1];
-    if (!accesstoken) {
+      request?.header?.authorization?.split(" ")[1]
+    if (!token) {
       return response.status(401).json({
         message: "Token not found!",
         error: true, 
@@ -14,7 +14,7 @@ const auth = (request, response, next) => {
     }
 
     const decode = jwt.verify(
-      accesstoken,
+      token,
       process.env.ACCESS_TOKEN_SECRET
     );
     if(!decode){
