@@ -22,6 +22,10 @@ function Header() {
     navigate("/register");
   };
 
+  const handleAccountClick = () => {
+    setShowUserMenu((prev) => !prev);
+  };
+
   return (
     <header className="h-20 lg:shadow-md sticky top-0 bg-primaryLight">
       <div className="container mx-auto flex items-center justify-between h-full px-2">
@@ -54,7 +58,7 @@ function Header() {
             {user?._id ? (
               <div className="relative">
                 <div
-                  onClick={() => setShowUserMenu((prev) => !prev)}
+                  onClick={handleAccountClick}
                   className="flex select-none items-center gap-3 mx-5 cursor-pointer"
                 >
                   <p className="">Account</p>
@@ -67,28 +71,26 @@ function Header() {
                 {showUserMenu && (
                   <div className="absolute right-0 top-10">
                     <div className="bg-primaryDark rounded p-4 min-w-52 lg:shadow-lg">
-                      <UserMenu />
+                      <UserMenu setShowUserMenu={setShowUserMenu}/>
                     </div>
                   </div>
                 )}
               </div>
             ) : (
-              ((
+              <div className="hidden lg:flex justify-between items-center gap-5">
                 <button
                   className="bg-secondaryLight text-lg px-4 py-1 rounded-md hover:bg-secondaryDark"
                   onClick={redirectTologinPage}
                 >
                   Log in
                 </button>
-              ),
-              (
                 <button
                   className="bg-secondaryLight text-lg px-4 py-1 rounded-md hover:bg-secondaryDark mr-6"
                   onClick={redirectToRegisterPage}
                 >
                   Sign up
                 </button>
-              ))
+              </div>
             )}
           </div>
         </div>

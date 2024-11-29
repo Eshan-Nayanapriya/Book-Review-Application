@@ -19,7 +19,6 @@ const UserSchema = new Schema(
     },
     avatar: {
       type: String,
-      required: [true, "Avatar is required"],
       default: "",
     },
     role: {
