@@ -26,6 +26,14 @@ function Header() {
     setShowUserMenu((prev) => !prev);
   };
 
+  const handlemobileUser = () => {
+    if (!user._id) {
+      navigate("/login");
+      return;
+    }
+    navigate("/mobile-user");
+  };
+
   return (
     <header className="h-20 lg:shadow-md sticky top-0 bg-primaryLight">
       <div className="container mx-auto flex items-center justify-between h-full px-2">
@@ -50,7 +58,10 @@ function Header() {
         </div>
         <div className="">
           {/**this user icon only display in mobile version */}
-          <button className="text-neutral-600 lg:hidden">
+          <button
+            className="text-neutral-600 lg:hidden"
+            onClick={handlemobileUser}
+          >
             <FaRegUserCircle size={25} />
           </button>
           {/**Desktop part*/}
@@ -71,7 +82,7 @@ function Header() {
                 {showUserMenu && (
                   <div className="absolute right-0 top-10">
                     <div className="bg-primaryDark rounded p-4 min-w-52 lg:shadow-lg">
-                      <UserMenu setShowUserMenu={setShowUserMenu}/>
+                      <UserMenu setShowUserMenu={setShowUserMenu} />
                     </div>
                   </div>
                 )}
