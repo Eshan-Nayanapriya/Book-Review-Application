@@ -7,6 +7,7 @@ import SummaryApi from "../config/Summary.api";
 import { logout } from "../store/userSlice";
 import toast from "react-hot-toast";
 import AxiosToastError from "../utils/AxiosToastError";
+import { FaExternalLinkAlt } from "react-icons/fa";
 
 const UserMenu = ({ setShowUserMenu }) => {
   const user = useSelector((state) => state?.user);
@@ -36,7 +37,14 @@ const UserMenu = ({ setShowUserMenu }) => {
   return (
     <div>
       <div className="font-semibold">My Account</div>
-      <div className="text-sm">{user.name || user.email}</div>
+      <div className="text-sm flex items-center gap-2">
+        <span className="mex-w-52 text-ellipsis line-clamp-1">
+          {user.name || user.email}
+        </span>
+        <Link to={"/dashboard/profile"} className="hover:text-blue-400">
+          <FaExternalLinkAlt size={15} />
+        </Link>
+      </div>
 
       <Divider />
 

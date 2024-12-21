@@ -7,6 +7,8 @@ import ForgotPassword from "../pages/ForgotPassword";
 import OTPverification from "../pages/OTPverification";
 import ResetPassword from "../pages/ResetPassword";
 import UserMenuMobile from "../pages/userMenuMobile";
+import Dashboard from "../layouts/Dashboard";
+import Profile from "../pages/profile";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +42,16 @@ const router = createBrowserRouter([
       {
         path: "mobile-user",
         element: <UserMenuMobile />,
+      },
+      {
+        path: "dashboard",
+        element: <Dashboard />,
+        children: [
+          {
+            path: "profile",
+            element: <Profile />,
+          },
+        ],
       },
     ],
   },
