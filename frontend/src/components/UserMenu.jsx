@@ -49,7 +49,10 @@ const UserMenu = ({ setShowUserMenu }) => {
       <Divider />
 
       <div className="text-sm grid gap-1">
-        <Link to={""} className="px-2 hover:bg-primaryLight py-1">
+        <Link
+          to={"/dashboard/myreviews"}
+          className="px-2 hover:bg-primaryLight py-1"
+        >
           My Reviews
         </Link>
         <button
