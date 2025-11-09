@@ -10,8 +10,8 @@ import {
   uploadUserAvatarController,
   verifyEmailController,
   verifyForgotPasswordOTPController,
+  loginUserController,
 } from "../controllers/user.controller.js";
-import { loginUserController } from "../controllers/user.controller.js";
 import auth from "../middleware/auth.js";
 import upload from "../middleware//multer.js";
 
